@@ -15,6 +15,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+        cache: 'npm'
 
     - name: Install dependencies
       run: |
@@ -24,7 +25,9 @@ jobs:
     - name: Build app
       run: npm run build
 
-    - name: Build Electron
+    - name: Build Electron (force npm)
+      env:
+        NPM_CONFIG_USER_AGENT: npm
       run: npm run electron:build
 
     - name: Upload artifacts
