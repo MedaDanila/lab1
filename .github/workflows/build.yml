@@ -11,14 +11,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    # Добавьте этот шаг сразу после checkout
-    - name: Install npm explicitly
-      run: npm install -g npm@latest
-
-    - name: Use Node.js
+    - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
-        node-version: '20'  # Рекомендуемая LTS версия
+        node-version: '20.17.0'  # Явно указываем совместимую версию
+
+    # Дополнительное обновление npm (теперь будет работать)
+    - name: Update npm
+      run: npm install -g npm@latest
 
     - name: Install dependencies
       run: npm install
@@ -33,6 +33,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: MyApp-Windows
-        path: |
-          release/*.exe
-          release/*.blockmap
+        path: release/*.exe
