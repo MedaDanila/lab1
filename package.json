@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "electron:dev": "concurrently -k \"vite\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron:build": "vite build && electron-builder",
+    "electron:build": "vite build && electron-builder --config.npmRebuild=false -w",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
@@ -25,5 +25,8 @@
   },
   "resolutions": {
     "electron": "^13.6.9"
+  },
+  "build": {
+    "npmRebuild": false
   }
 }
