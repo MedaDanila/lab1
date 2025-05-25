@@ -9,26 +9,28 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4  # Также обновите checkout
-
-    - name: Use Node.js
-      uses: actions/setup-node@v4  # И setup-node
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
       with:
-        node-version: '20'  # Рекомендую Node.js 20 (LTS)
+        node-version: '20.17.0'
 
     - name: Install dependencies
-      run: npm install
-
+      run: |
+        npm install
+        npm install -g npm@latest
+        
     - name: Build app
       run: npm run build
 
-    - name: Build Electron app for Windows
-      run: npm run electron:build -- -w
+    - name: Build Electron (force npm)
+      run: npm run electron:build -- --config.npmClient=npm --config.npmRebuild=false
 
-    - name: Upload Windows executable
-      uses: actions/upload-artifact@v4  # 🔥 Ключевое изменение!
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
       with:
-        name: MyApp-Windows
+        name: Windows-Installer
         path: |
-          release/*.exe
-          release/*.blockmap
+          dist/*.exe
+          dist/*.blockmap
