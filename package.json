@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "electron:dev": "concurrently -k \"vite\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron:build": "vite build && electron-builder --config.npmClient=npm --config.npmRebuild=false -w",
+    "electron:build": "vite build && electron-builder --win --x64 --config.npmRebuild=false",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
@@ -27,10 +27,15 @@
     "electron": "^13.6.9"
   },
   "build": {
+    "appId": "com.example.yourapp",
+    "productName": "YourApp",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
     "npmRebuild": false,
-    "nodeGypRebuild": false,
-    "publish": null,
-    "usePnP": false,
-    "npmClient": "npm"
+    "nodeGypRebuild": false
   }
 }
