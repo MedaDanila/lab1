@@ -14,23 +14,23 @@ jobs:
     - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
-        node-version: '20.17.0'  # Явно указываем совместимую версию
-
-    # Дополнительное обновление npm (теперь будет работать)
-    - name: Update npm
-      run: npm install -g npm@latest
+        node-version: '20.17.0'
 
     - name: Install dependencies
-      run: npm install
-
+      run: |
+        npm install
+        npm install -g npm@latest
+        
     - name: Build app
       run: npm run build
 
-    - name: Build Electron app for Windows
-      run: npm run electron:build -- -w
+    - name: Build Electron (force npm)
+      run: npm run electron:build -- --config.npmClient=npm --config.npmRebuild=false
 
-    - name: Upload Windows executable
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: MyApp-Windows
-        path: release/*.exe
+        name: Windows-Installer
+        path: |
+          dist/*.exe
+          dist/*.blockmap
